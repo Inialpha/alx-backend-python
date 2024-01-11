@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+""" module for make_multiplier() """
 from typing import Callable
 
 
