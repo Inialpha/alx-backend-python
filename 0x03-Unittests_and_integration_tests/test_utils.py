@@ -31,7 +31,8 @@ class TestAccessNestedMap(unittest.TestCase):
     ])
     def test_access_nested_map_exception(
             self, nested_map: Mapping, path: Sequence) -> None:
-        """ test test case for access_nested_map function with wrong outputs """
+        """ test test case for access_nested_map
+        function with wrong outputs """
         with self.assertRaises(KeyError):
             access_nested_map(nested_map, path)
 
@@ -60,6 +61,7 @@ class TestMemoize(unittest.TestCase):
 
         class TestClass:
             """ test class for momoization """
+
             def a_method(self) -> int:
                 """ test method for momoization """
                 return 42
