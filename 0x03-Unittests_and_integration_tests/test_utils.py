@@ -20,6 +20,6 @@ class TestAccessNestedMap(unittest.TestCase):
     def test_access_nested_map(self,
                                nested_map: Mapping,
                                path: Sequence,
-                               expected: Union[Mapping | int]) -> None:
+                               expected: Union[Mapping, int]) -> None:
         """ test case for access_nested_map function with correct outputs """
         self.assertEqual(access_nested_map(nested_map, path), expected)
