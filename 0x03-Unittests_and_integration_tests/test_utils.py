@@ -23,3 +23,13 @@ class TestAccessNestedMap(unittest.TestCase):
                                expected: Union[Mapping, int]) -> None:
         """ test case for access_nested_map function with correct outputs """
         self.assertEqual(access_nested_map(nested_map, path), expected)
+
+    @parameterized.expand([
+        ({}, ("a",)),
+        ({"a": 1}, ("a", "b"))
+    ])
+    def test_access_nested_map_exception(
+            self, nested_map: Mapping, path: Sequence) -> None:
+        """ test test case for access_nested_map function with wrong outputs """
+        with self.assertRaises(KeyError):
+            access_nested_map(nested_map, path)
