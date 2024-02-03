@@ -12,7 +12,7 @@ class TestGithubOrgClient(TestCase):
     @parameterized.expand([('google',
                           {'client': 'google'}), ('abc', {'client': 'abc'})])
     @patch("client.get_json")
-    def test_org(self, org: str, res: Dict, mock: Mock):
+    def test_org(self, org: str, res: Dict, mock: Mock) -> None:
         """ test org method """
         mock.return_value = Mock(return_value=res)
         my_client = GithubOrgClient(org)
