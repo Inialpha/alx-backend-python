@@ -3,7 +3,7 @@
 from client import GithubOrgClient
 from typing import Dict
 from unittest import TestCase
-from unittest.mock import Mock, patch, PropertyMock
+from unittest.mock import Mock, patch, PropertyMock, MagicMock
 from parameterized import parameterized
 
 
@@ -20,7 +20,7 @@ class TestGithubOrgClient(TestCase):
         mock.assert_called_once_with(
             "https://api.github.com/orgs/{}".format(org))
 
-    def test_public_repos_url(self):
+    def test_public_repos_url(self) -> None:
         """ test public_repos_url """
 
         with patch(
@@ -31,7 +31,7 @@ class TestGithubOrgClient(TestCase):
                 GithubOrgClient("wtf")._public_repos_url, 'google')
 
     @patch('client.get_json')
-    def test_public_repos(self, mock_get_json: Mock):
+    def test_public_repos(self, mock_get_json: MagicMock) -> None:
         """ test cases for public_repos """
         pay_load = [{"repos_url": "https://api.github.com/orgs/google/repos"},
                     [
@@ -63,3 +63,16 @@ class TestGithubOrgClient(TestCase):
                 ["cpp-netlib"])
             mock_org.assert_called_once()
         mock_get_json.assert_called_once()
+
+    @parameterized.expand([(
+        {"license": {"key": "my_license"}}, "my_license", True),
+        ({"license": {"key": "other_license"}}, "my_license", False)])
+    def test_has_license(
+            self,
+            repo: Dict,
+            license_key: str,
+            expected: bool) -> None:
+        """ test cases for has_license method """
+        self.assertEqual(
+            GithubOrgClient.has_license(
+                repo, license_key), expected)
