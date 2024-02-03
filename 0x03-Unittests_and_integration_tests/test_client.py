@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-""" test module for client,py """
+""" test module for client.py """
 from client import GithubOrgClient
 from typing import Dict
 from unittest import TestCase
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, PropertyMock
 from parameterized import parameterized
 
 
@@ -19,3 +19,13 @@ class TestGithubOrgClient(TestCase):
         self.assertEqual(my_client.org(), res)
         mock.assert_called_once_with(
             "https://api.github.com/orgs/{}".format(org))
+
+    def test_public_repos_url(self):
+        """ test public_repos_url """
+
+        with patch(
+                'client.GithubOrgClient.org',
+                new_callable=PropertyMock) as mock_org:
+            mock_org.return_value = {'repos_url': 'google'}
+            self.assertEqual(
+                GithubOrgClient("wtf")._public_repos_url, 'google')
