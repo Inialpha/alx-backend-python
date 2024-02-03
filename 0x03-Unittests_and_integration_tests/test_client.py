@@ -29,3 +29,37 @@ class TestGithubOrgClient(TestCase):
             mock_org.return_value = {'repos_url': 'google'}
             self.assertEqual(
                 GithubOrgClient("wtf")._public_repos_url, 'google')
+
+    @patch('client.get_json')
+    def test_public_repos(self, mock_get_json: Mock):
+        """ test cases for public_repos """
+        pay_load = [{"repos_url": "https://api.github.com/orgs/google/repos"},
+                    [
+                    {
+                        "id": 7697149,
+                        "name": "episodes.dart",
+                        "node_id": "MDEwOlJlcG9zaXRvcnk3Njk3MTQ5",
+                        "license": {
+                            "key": "bsd-3-clause",
+                        }
+                    },
+                    {
+                        "id": 7776515,
+                        "name": "cpp-netlib",
+                        "full_name": "google/cpp-netlib",
+                        "license": {
+                            "key": "bsl-1.0"
+                        }
+                    }
+                    ]
+                    ]
+        mock_get_json.return_value = pay_load[1]
+        with patch(
+                'client.GithubOrgClient._public_repos_url',
+                new_callable=PropertyMock) as mock_org:
+            mock_org.return_value = pay_load[0]['repos_url']
+            self.assertEqual(
+                GithubOrgClient('wtf').public_repos("bsl-1.0"),
+                ["cpp-netlib"])
+            mock_org.assert_called_once()
+        mock_get_json.assert_called_once()
