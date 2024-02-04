@@ -8,6 +8,7 @@ from parameterized import parameterized, parameterized_class
 
 from fixtures import TEST_PAYLOAD
 
+
 class TestGithubOrgClient(TestCase):
     """ test suite for GithubOrgClient """
     @parameterized.expand([('google',
@@ -68,7 +69,6 @@ class TestGithubOrgClient(TestCase):
     @parameterized.expand([(
         {"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False),])
-    
     def test_has_license(
             self,
             repo: Dict[str, Dict],
